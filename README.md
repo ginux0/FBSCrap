@@ -1,11 +1,11 @@
-# ◈ FBSCRAP v2.0
+# FBSCRAP v2.0
 ### Social Media Threat Intelligence Platform
 
 **FBSCRAP** is a forensic-grade intelligence platform for detecting, documenting, and neutralizing coordinated inauthentic behavior (CIB) on Facebook. Purpose-built for political campaigns, governments, and organizations facing organized disinformation attacks.
 
 ---
 
-## 🎯 What It Does
+## What It Does
 
 FBSCRAP detects coordinated bot campaigns with **forensic precision**:
 
@@ -28,7 +28,7 @@ cp config/default_config.json config.json
 
 ---
 
-## 💻 Usage
+## 💻 Syntax & How to use
 
 ### First Time: Save Facebook Session
 ```bash
@@ -95,7 +95,7 @@ Show all recorded scan sessions and their metadata.
 
 ---
 
-## 🔍 Forensic Engines
+## Forensic Engines
 
 11-dimensional analysis covering:
 - Bot profile classification (TrollHunter)
@@ -109,7 +109,7 @@ Show all recorded scan sessions and their metadata.
 
 ---
 
-## 📄 License
+## License
 
 Proprietary. Contact author for licensing.
 
@@ -118,7 +118,8 @@ Proprietary. Contact author for licensing.
 ## 👤 Author
 
 **Jesus Lugo** — Offensive Security Research  
-Email: gin@linux.edu
+Email: jesus@linux.edu
+NULLSEC RED TEAM
 
 ---
 
