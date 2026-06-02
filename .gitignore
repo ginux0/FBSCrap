@@ -15,10 +15,6 @@ sessions/
 # Operational Data
 data/
 targets/
-gen_*.py
-debug_*.py
-output/*.docx
-output/*.html
 
 # Python
 __pycache__/
