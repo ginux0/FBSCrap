@@ -1,0 +1,49 @@
+# Credentials & Secrets
+.env
+config.json
+credentials.json
+*.key
+*.pem
+*.p12
+
+# Session Data
+.fb_profile/
+sessions/
+*.session
+*.db
+
+# Operational Data
+data/
+targets/
+gen_*.py
+debug_*.py
+output/*.docx
+output/*.html
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Reports & Exports
+*.pdf
+*.xlsx
+*.csv
+reports/

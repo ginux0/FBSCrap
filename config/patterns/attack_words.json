@@ -1,0 +1,30 @@
+{
+  "attack_words": [
+    "corrupto", "corrupta", "corruptos", "corruptas", "corrupción",
+    "ladrón", "ladrona", "ladrones", "ratero", "roba", "robó",
+    "mentiroso", "mentirosa", "mentira", "mentiras", "miente",
+    "traidor", "traidora", "traidores", "traición",
+    "inútil", "inútiles", "incompetente", "incompetentes",
+    "criminal", "criminales", "delincuente", "delincuentes",
+    "fraude", "fraudulento", "trampa", "tramposo",
+    "asesino", "asesinos", "narco", "narcotraficante",
+    "dictador", "dictadura", "tirano", "tiranía",
+    "hipócrita", "hipócritas", "farsante", "farsantes",
+    "vendido", "vendidos", "vendepatria",
+    "mafioso", "mafiosa", "mafia",
+    "cobarde", "cobardes",
+    "basura", "escoria", "lacra",
+    "abusivo", "abusivos", "explotador",
+    "liar", "thief", "crook", "corrupt", "criminal", "fraud"
+  ],
+  "attack_templates": [
+    "\\b(vota\\s+por|voten\\s+por)\\b.{0,40}\\b(corrupto|ladr[oó]n|mentiroso)\\b",
+    "\\b(no\\s+votes?|nunca\\s+votes?)\\b.{0,40}\\b(corrupto|ladr[oó]n|traidor)\\b",
+    "\\b(comparte?|difunde?)\\b.{0,50}\\b(corrupci[oó]n|fraude|robo)\\b",
+    "\\b(es\\s+un|es\\s+una)\\b.{0,20}\\b(ladr[oó]n|corrupto|mentiroso|criminal)\\b"
+  ],
+  "generic_bot_terms": [
+    "oficial", "noticias", "news", "info", "updates", "citizen",
+    "patriota", "resistencia", "verdad", "truth", "real", "mxnews"
+  ]
+}

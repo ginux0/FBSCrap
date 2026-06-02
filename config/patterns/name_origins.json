@@ -1,0 +1,321 @@
+{
+  "_version": "1.0",
+  "_note": "Name origin database for TrollHunterEngine. Add/remove names here — zero code changes needed. Weights and severity control scoring in cfg['troll_hunter'].",
+
+  "origins": {
+
+    "ARABIC": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 1.0,
+      "severity": "CRITICAL",
+      "context": "Arabic/Islamic names are the #1 indicator of overseas bot farms targeting Latin American political campaigns. Statistically negligible organic presence in Mexican political commentary.",
+      "first_names": [
+        "Mohamed","Muhammad","Mohammed","Muhammed","Mohamad","Ahmad","Ahmed",
+        "Ali","Hassan","Hasan","Hussein","Husain","Husayn","Ibrahim","Omar",
+        "Umar","Khalid","Tariq","Abdullah","Abdul","Yusuf","Yousuf","Bilal",
+        "Faisal","Nasser","Nasir","Kareem","Karim","Jamal","Amir","Rami",
+        "Sami","Hamid","Walid","Waleed","Samir","Adil","Farid","Rashid",
+        "Mansour","Mansur","Talal","Ziad","Bassam","Ghazi","Marwan","Nabil",
+        "Tarek","Wissam","Khaled","Majed","Osama","Usama","Saleh","Salih",
+        "Malik","Mustafa","Ismail","Ismaeel","Hisham","Emad","Imad","Amr",
+        "Adnan","Ashraf","Badr","Bakr","Dawud","Daoud","Eyad","Iyad","Faris",
+        "Ghassan","Hatem","Hatim","Jihad","Juma","Kamil","Lutfi","Mazen",
+        "Munir","Nidal","Qasim","Riad","Saeed","Said","Sameh","Shadi",
+        "Sherif","Tamer","Wael","Yahya","Yousef","Youssef","Zaki","Zein",
+        "Zeine","Jaafar","Jafar","Moataz","Raed","Rashed","Sabri","Sadiq",
+        "Taher","Taha","Wasim","Waseem","Yasir","Yasser","Zakariya",
+        "Fatima","Fatimah","Aisha","Aishah","Zainab","Zaynab","Mariam",
+        "Maryam","Nour","Noor","Hana","Hanaa","Rania","Layla","Leila",
+        "Yasmine","Yasmin","Amira","Amirah","Salma","Dina","Rana","Lina",
+        "Hind","Mona","Reem","Heba","Noha","Aya","Rahma","Khadija",
+        "Khadijah","Haifa","Ghada","Maha","Ruba","Rula","Sahar","Samira",
+        "Shirin","Suha","Sumaya","Wafa","Walaa","Yara","Zena","Zineb",
+        "Manar","Nada","Nadia","Nagwa","Nahla","Najla","Najwa","Nesrin",
+        "Nisreen","Randa","Reema","Roaa","Safaa","Safa","Siham","Souad",
+        "Tahani","Warda","Abeer","Afaf","Ahlam","Amal","Amani","Arwa",
+        "Asma","Bushra","Dalal","Douaa","Duaa","Eman","Enas","Faten",
+        "Fawzia","Hadia","Hadil","Hala","Haneen","Heba","Inas","Iqbal",
+        "Lama","Lamia","Lubna","Maisa","Maysa","Mona","Nadia","Nadine",
+        "Nawras","Nora","Noura","Ola","Rana","Rawan","Rawda","Riham",
+        "Rim","Rozan","Ruba","Ryam","Sabreen","Sama","Samah","Sana",
+        "Seba","Shada","Shahd","Shaimaa","Shaima","Shatha","Somaya",
+        "Suha","Suzan","Tala","Tamara","Thikra","Weam","Yosra","Zeina"
+      ],
+      "last_name_prefixes": [
+        "Al-","El-","Al ","El ","Abu ","Ibn ","Ben ","Bin ","Bint ",
+        "Abd ","Abdel ","Abdul ","Abou ","Al-","Bou ","Ould "
+      ],
+      "last_name_endings": ["awi","ouri","oudi","alli","eini","ani","ani"],
+      "script_hint": "arabic"
+    },
+
+    "SOUTH_ASIAN": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.85,
+      "severity": "HIGH",
+      "context": "South Asian names (Hindi/Urdu/Punjabi/Bengali/Tamil/Telugu) common in Pakistani and Indian bot farm operations documented globally.",
+      "first_names": [
+        "Raj","Rajesh","Rajan","Rajiv","Rahul","Rohit","Rohan","Ravi",
+        "Sanjay","Sandeep","Suresh","Sunil","Sachin","Sahil","Vikram",
+        "Vishal","Vivek","Varun","Vinay","Vikas","Vipul","Amit","Amitabh",
+        "Anil","Anuj","Ankur","Ankit","Arjun","Aryan","Ashish","Ashok",
+        "Atul","Deepak","Dev","Dhruv","Dileep","Gaurav","Girish","Gopal",
+        "Harsh","Hitesh","Kapil","Karan","Krishna","Krish","Kunal","Lalit",
+        "Mahesh","Manish","Manoj","Mohan","Mukesh","Naresh","Naveen",
+        "Nikhil","Nilesh","Nishant","Pankaj","Paresh","Pratik","Praveen",
+        "Ramesh","Rishi","Ritesh","Rupesh","Saurabh","Shyam","Siddharth",
+        "Tarun","Umesh","Vineet","Yash","Akhil","Avinash","Ganesh",
+        "Harish","Lokesh","Navin","Raghav","Sharad","Yogesh",
+        "Imran","Irfan","Junaid","Kamran","Nadeem","Naseem","Naveed",
+        "Salman","Shahid","Tanveer","Usman","Waseem","Zubair","Adeel",
+        "Ahsan","Aqeel","Arif","Asad","Asif","Atif","Ayaz","Farhan",
+        "Farooq","Fawad","Hamza","Haris","Javed","Kasim","Muzammil",
+        "Noman","Qasim","Raza","Rizwan","Sajid","Shakeel","Umer","Zafar",
+        "Priya","Priyanka","Pooja","Puja","Neha","Nisha","Nikita","Kavya",
+        "Kavitha","Komal","Ananya","Anita","Anupriya","Deepa","Divya",
+        "Gauri","Geeta","Harpreet","Jyoti","Kaveri","Lakshmi","Lata",
+        "Meena","Nandini","Padma","Pallavi","Parvati","Rashmi","Rekha",
+        "Ritu","Sangeetha","Savita","Seema","Sheela","Shilpa","Shreya",
+        "Smita","Sunita","Swati","Tanvi","Usha","Vandana","Varsha",
+        "Vijaya","Vinita","Aarti","Archana","Chitra","Indira","Meenakshi",
+        "Nirmala","Shalini","Sudha","Vidya","Ayesha","Amina","Farida",
+        "Huma","Nadia","Rukhsar","Shabana","Sana","Zara","Zeenat",
+        "Asma","Farah","Gulnaz","Hina","Iram","Kiran","Lubna","Mahnoor",
+        "Rabia","Sadaf","Saima","Sobia","Soha","Uzma","Yasmin","Zobia"
+      ],
+      "last_names": [
+        "Kumar","Sharma","Singh","Patel","Gupta","Verma","Mishra","Yadav",
+        "Tiwari","Pandey","Chauhan","Joshi","Srivastava","Agarwal","Agrawal",
+        "Banerjee","Bose","Chakraborty","Chatterjee","Das","Datta","Deb",
+        "Ghosh","Mukherjee","Nair","Pillai","Iyer","Iyengar","Rajan",
+        "Reddy","Naidu","Rao","Shastri","Trivedi","Upadhyay","Mehta","Shah",
+        "Khan","Ahmed","Ansari","Qureshi","Siddiqui","Chaudhary","Chaudhry",
+        "Dubey","Dwivedi","Jain","Kapoor","Khanna","Malhotra","Mehra",
+        "Oberoi","Saxena","Tandon","Thakur","Tripathi","Tyagi","Vyas","Walia",
+        "Bajwa","Bhatt","Choudhary","Desai","Garg","Goel","Kaur","Khatri",
+        "Mahajan","Menon","Nanda","Prasad","Sethi","Sinha","Soni","Swamy"
+      ]
+    },
+
+    "MALAY_INDONESIAN": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.85,
+      "severity": "HIGH",
+      "context": "Malay/Indonesian bot farms are extensively documented. Indonesia has the largest commercial click-farm industry in Asia targeting social media.",
+      "first_names": [
+        "Nur","Nuri","Nurul","Siti","Dewi","Putri","Fitri","Rina","Wati",
+        "Sri","Ika","Ayu","Dian","Ani","Yuni","Tri","Budi","Eko","Wahyu",
+        "Agus","Bambang","Rizky","Rizki","Hendra","Dedi","Dodi","Andri",
+        "Andre","Andi","Yunus","Udin","Tono","Surya","Susilo","Rudi",
+        "Ridwan","Ramdan","Ramadhan","Putra","Prima","Prabowo","Prasetyo",
+        "Novita","Novia","Mulyadi","Lutfi","Lukman","Kurniawan","Khairul",
+        "Khoirul","Indra","Fajar","Faizal","Erlangga","Dimas","Dani",
+        "Cahya","Bagas","Ardiansyah","Ardian","Asep","Yanto","Hadi",
+        "Iwan","Joko","Joni","Kirno","Madun","Narto","Parno","Parto",
+        "Sarto","Sigit","Slamet","Suparman","Supri","Sutrisno","Suwarno",
+        "Taufik","Teguh","Wahid","Wawan","Widodo","Yudi","Zainal",
+        "Zainudin","Zulfikar","Zulkifli","Hafiz","Syahrul","Syafri",
+        "Syafiq","Aisyah","Aminah","Hamidah","Hasnah","Khairani","Latifah",
+        "Nabilah","Rahmah","Rohani","Salmah","Sariah","Sharifah","Zaleha",
+        "Zanariah","Zurina","Zuraida","Faridah","Habibah","Halimah",
+        "Haslinda","Noraini","Norashikin","Norazah","Norliza","Rozita",
+        "Suraya","Suriati","Yusnita","Zariah","Amirul","Azman","Azri",
+        "Azrul","Faizul","Hairul","Hazwan","Izwan","Khairul","Mohd",
+        "Muhamad","Nizam","Razif","Shahrul","Shamsul","Syukri","Zul"
+      ]
+    },
+
+    "RUSSIAN_SLAVIC": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.85,
+      "severity": "HIGH",
+      "context": "Russian names are a strong indicator of Russian-linked disinformation operations, which are extensively documented globally including in Latin America.",
+      "first_names": [
+        "Vladimir","Vladislav","Dmitri","Dmitry","Aleksei","Alexei","Alexey",
+        "Ivan","Sergei","Sergey","Pavel","Nikolai","Andrei","Andrey",
+        "Mikhail","Boris","Anatoly","Viktor","Oleg","Konstantin","Vasily",
+        "Yuri","Yury","Gennady","Evgeny","Evgeni","Artyom","Artem",
+        "Maxim","Maksim","Timur","Anton","Stanislav","Roman","Ruslan",
+        "Igor","Ilya","Kirill","Leonid","Lev","Matvei","Nikita","Petr",
+        "Pyotr","Semyon","Stepan","Timofei","Vadim","Valentin","Valery",
+        "Vasil","Vitaly","Vyacheslav","Zakhar","Fyodor","Grigory",
+        "Natasha","Natalia","Natalya","Olga","Elena","Tatiana","Tatyana",
+        "Irina","Svetlana","Oksana","Anastasia","Ekaterina","Katerina",
+        "Larisa","Marina","Vera","Lyudmila","Valentina","Galina","Tamara",
+        "Yelena","Yulia","Yuliya","Anna","Sofia","Sofiya","Polina",
+        "Kseniya","Ksenia","Darya","Dasha","Masha","Sasha","Vika",
+        "Alina","Alla","Diana","Eva","Inna","Irena","Lena","Liana",
+        "Liliya","Lily","Lyuba","Mila","Nina","Oksana","Olia","Rima",
+        "Rita","Rosa","Sofya","Tanya","Vanya","Varvara","Zhanna"
+      ],
+      "last_name_suffixes": [
+        "ov","ova","ev","eva","in","ina","sky","ski","skiy","skaya",
+        "enko","ko","ych","ich","uk","chuk","yuk","vich","vitch",
+        "iev","ieva","nov","nova","nin","nina","kin","kina","lin",
+        "lina","nin","nin","shin","shina","tin","tina","bin","bina"
+      ]
+    },
+
+    "CHINESE": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.75,
+      "severity": "HIGH",
+      "context": "Chinese bot operations are among the most technically sophisticated globally. China operates large-scale commercial and state-sponsored influence networks.",
+      "first_names": [
+        "Wei","Ming","Fang","Ling","Hong","Xin","Zhen","Jing","Hui","Yan",
+        "Hua","Xiao","Mei","Chen","Wen","Jin","Ping","Yang","Bo","Feng",
+        "Gang","Lei","Peng","Qiang","Jun","Hao","Tao","Chao","Long",
+        "Kun","Liang","Bin","Dong","Guang","Jian","Kai","Le","Nan",
+        "Qi","Shan","Sheng","Shu","Tian","Wang","Xiang","Xue","Yi",
+        "Yong","Yuan","Zhi","Zhong","Zhu","Zi","Bao","Cai","Dan",
+        "Die","Fen","Fu","Gui","Jie","Juan","Lan","Li","Lian","Lili",
+        "Liu","Lu","Lv","Qian","Qing","Rong","Rui","Shan","Shuang",
+        "Tingting","Weili","Wenli","Xiaohong","Xiaolan","Xiaomei",
+        "Xiumei","Xuemei","Yajun","Yali","Yanli","Yanmei","Yanping",
+        "Yanxia","Yanzhen","Yaqin","Yating","Yaxin","Yayun","Yazhen"
+      ],
+      "last_names": [
+        "Li","Wang","Zhang","Liu","Chen","Yang","Huang","Zhao","Wu","Zhou",
+        "Xu","Sun","Ma","Zhu","Hu","Guo","He","Lin","Gao","Luo","Zheng",
+        "Liang","Xie","Tang","Han","Cao","Xu","Deng","Feng","Ceng",
+        "Peng","Zeng","Xiao","Tian","Ding","Jiang","Fan","Fang","Jin",
+        "Lu","Shi","Wei","Qian","Ren","Meng","Ye","Mo","Xu","Yu"
+      ]
+    },
+
+    "JAPANESE": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.70,
+      "severity": "MEDIUM",
+      "context": "Japanese names in Mexican political social media are statistically anomalous and may indicate bot deployment.",
+      "first_names": [
+        "Hiroshi","Takeshi","Kenji","Akira","Ryota","Yuki","Sho","Kazuki",
+        "Daisuke","Kenta","Taro","Jiro","Saburo","Shiro","Goro","Rokuro",
+        "Shichiro","Hachiro","Kuro","Juro","Ichiro","Niro","Mitsuo",
+        "Noboru","Osamu","Ryu","Shin","Shingo","Takahiro","Takuya",
+        "Tatsuya","Tetsuo","Toshio","Tsutomu","Wataru","Yasuhiro",
+        "Yoshihiro","Yoshitaka","Yuichi","Yuji","Yuji","Yukio","Yutaka",
+        "Sakura","Yuki","Hana","Aoi","Miku","Rin","Yui","Nana","Moe",
+        "Rei","Saki","Haruka","Ayumi","Chika","Eiko","Fumiko","Hanako",
+        "Haruki","Junko","Kaori","Keiko","Kimiko","Kyoko","Machiko",
+        "Mariko","Masako","Michiko","Midori","Miho","Mika","Mikiko",
+        "Mitsuko","Nana","Naoko","Naomi","Noriko","Ryoko","Sachiko",
+        "Sadako","Satoko","Sayuri","Tomoko","Yoriko","Yoshiko","Yuki"
+      ],
+      "last_names": [
+        "Sato","Suzuki","Tanaka","Watanabe","Ito","Yamamoto","Nakamura",
+        "Kobayashi","Kato","Abe","Yamada","Hayashi","Yamaguchi","Matsumoto",
+        "Inoue","Kimura","Shimizu","Saito","Fujiwara","Ogawa","Matsuda",
+        "Okamoto","Hashimoto","Ikeda","Nishimura","Ono","Fujii","Mori",
+        "Maeda","Ogawa","Goto","Okada","Hasegawa","Murakami","Sasaki"
+      ]
+    },
+
+    "KOREAN": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.70,
+      "severity": "MEDIUM",
+      "context": "Korean names in Mexican political content are anomalous — South Korean and North Korean-linked cyber operations are well-documented.",
+      "first_names": [
+        "Seung","Hyun","Jae","Tae","Min","Kyung","Yoon","Soo","Hee",
+        "Jong","Woo","Sung","Kwon","Dong","Chang","Jung","Young","Nam",
+        "Jun","Byung","Chul","Dae","Gil","Hwan","Jin","Kang","Ki",
+        "Kyu","Myung","Sang","Seok","Uk","Won","Yong","Youn",
+        "Ah","Bo","Chae","Da","Eun","Ha","Joo","Ju","Mi","Na",
+        "So","Ye","Ji","Hye","Joo","Kyung","Min","Soo","Sun","Won"
+      ],
+      "last_names": [
+        "Kim","Lee","Yi","Rhee","Park","Pak","Choi","Choe","Jung","Jeong",
+        "Han","Oh","Seo","Shin","Kwon","Lim","Im","Song","Jang","An",
+        "Ko","Moon","Jeon","Jo","Gang","Yoon","Cho","Nam","Hong","Yang",
+        "Ryu","Bae","Baek","Baik","Cha","Dong","Ha","Heo","Hwang",
+        "Jeon","Kang","Ko","Kong","Ku","Kwan","Kwak","Kwon","Min","Mo"
+      ]
+    },
+
+    "US_ENGLISH": {
+      "weight_key": "S1_name_origin",
+      "weight_multiplier": 0.50,
+      "severity": "MEDIUM",
+      "context": "Generic Anglo-American name combinations without any Spanish/Mexican element may indicate US-based bot farms or sock puppet operations. Lower weight — many Mexicans have English-influenced names.",
+      "first_names_male": [
+        "Tyler","Brandon","Justin","Cody","Dylan","Garrett","Blake","Colton",
+        "Tanner","Trent","Chad","Brett","Brad","Todd","Scott","Troy","Kurt",
+        "Craig","Dale","Dwayne","Travis","Dustin","Brett","Clint","Wayne",
+        "Kyle","Kevin","Keith","Kenny","Kent","Kirk","Kraig","Kurt"
+      ],
+      "first_names_female": [
+        "Britney","Brittany","Tiffany","Ashley","Amber","Kayla","Haley",
+        "Hailey","Kelsey","Kaitlyn","Kaylee","Paige","Taylor","Madison",
+        "Bailey","Shelby","Courtney","Whitney","Cassidy","Caitlin"
+      ],
+      "last_names": [
+        "Smith","Johnson","Williams","Jones","Brown","Davis","Miller",
+        "Wilson","Moore","Taylor","Anderson","Jackson","Harris","Martin",
+        "Thompson","Garcia","Martinez","Robinson","Clark","Lewis","Lee",
+        "Walker","Hall","Allen","Young","Wright","Scott","King","Baker"
+      ],
+      "require_both_foreign": true,
+      "note": "Only flag if BOTH first AND last name are from this list (no Spanish surname). Alone is not enough."
+    }
+  },
+
+  "page_account": {
+    "weight_key": "S2_page_account",
+    "severity": "HIGH",
+    "context": "Comments from Facebook Pages (not personal profiles) indicate the operator uses business/media/political pages to amplify attacks while hiding their personal identity.",
+    "keywords_es": [
+      "noticias","noticia","informativo","información","informacion",
+      "la voz","el correo","el sol","el norte","el sur","el centro",
+      "ciudadanos","ciudadanas","unidos","unidas","nacional","regional",
+      "local","periódico","periodico","medio","prensa","difusión",
+      "difusion","comunicado","oficial","verdad","denuncia","alerta",
+      "partido","campaña","campana","apoyo","amigos de","fans de",
+      "seguidores","movimiento","frente","fuerza","resistencia",
+      "pueblo","colectivo","defensores","gobierno","municipio",
+      "ayuntamiento","alcaldía","alcaldia","diputados","senadores",
+      "congreso","concejo","cabildo","sindicato","asociación",
+      "asociacion","patronato","fundación","fundacion","iniciativa",
+      "corporación","corporacion","agrupacion","agrupación","partido",
+      "comité","comite","consejo","junta","liga","unión","union",
+      "federación","federacion","coordinadora","coordinacion",
+      "brigada","batallón","batallon","escuadron","escuadrón",
+      "comando","operativo","alianza","coalición","coalition",
+      "bloque","frente","corriente","tendencia","sector",
+      "sinaloa","culiacán","culiacan","mazatlán","mazatlan",
+      "guasave","ahome","mochis","navolato","guamuchil","guamúchil",
+      "los mochis","salvador alvarado","angostura","badiraguato",
+      "choix","cosala","escuinapa","elota","mocorito","rosario",
+      "san ignacio","concordia","cosala","sinaloa de leyva",
+      "mexicali","tijuana","hermosillo","sonora","baja california",
+      "chihuahua","durango","nayarit","jalisco","cdmx","monterrey"
+    ],
+    "keywords_en": [
+      "news","media","press","info","official","page","report",
+      "update","group","community","network","channel","broadcast",
+      "live","radio","tv","online","digital","web","blog","journal",
+      "gazette","tribune","herald","sentinel","observer","monitor",
+      "times","post","daily","weekly","express","star","sun","globe"
+    ],
+    "min_words_org_name": 3,
+    "digit_in_name": true,
+    "all_caps_word_min_len": 3
+  },
+
+  "bot_account_patterns": {
+    "digit_suffix_min_digits": 3,
+    "generic_prefixes": [
+      "user","cuenta","perfil","test","admin","anonimo","anónimo",
+      "anon","fake","real","verdad","truth","alerta","info","bot",
+      "account","acct","temp","temporal","nuevo","new","oficial"
+    ],
+    "suspicious_name_patterns": [
+      "^user\\d+$",
+      "^[a-z]+\\d{4,}$",
+      "^anon\\w*$",
+      "^fake\\w*$",
+      "^bot\\w*$",
+      "^temp\\w*$"
+    ]
+  }
+}

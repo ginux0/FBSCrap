@@ -1,0 +1,686 @@
+{
+  "_version": "2.0",
+  "_note": "FBSCRAP default config. Override any key in config.json. Never edit this file directly.",
+
+  "scraper": {
+    "page_load_timeout_ms": 35000,
+    "post_load_delay_s": 3.0,
+    "panel_open_delay_s": 2.0,
+    "keyboard_shortcut_delay_s": 1.5,
+    "click_timeout_ms": 2500,
+    "expand_click_delay_s": 0.8,
+    "scroll_delay_s": 1.2,
+    "panel_scroll_delay_s": 1.0,
+    "max_expand_budget_base": 20,
+    "expand_budget_divisor": 15,
+    "min_important_comments": 50,
+    "ts_scan_lines": 4,
+    "max_caption_chars": 3000,
+    "max_caption_elements": 4,
+    "comment_text_min_chars": 8,
+    "likes_pattern": "(\\d+)\\s*(?:Me gusta|Like)",
+    "dedup_key_len": 80,
+    "dom_selectors_file": "config/patterns/dom_selectors.json"
+  },
+
+  "comment_bot_detector": {
+    "dup_threshold": 0.65,
+    "copycat_min_posts": 2,
+    "repeat_attacker_min": 2,
+    "copycat_max_authors": 15,
+    "bot_score_threshold": 40,
+    "bot_confirmed_pct_threshold": 65,
+    "suspicious_pct_threshold": 35,
+    "attack_phrase_context_before": 10,
+    "attack_phrase_context_after": 30,
+    "attack_phrase_key_len": 80,
+    "max_authors_in_cluster": 10,
+    "max_clusters_output": 50,
+    "text_similarity_prefix_len": 60,
+    "suspect_weights": {
+      "attack_rate": 0.40,
+      "cross_media": 0.30,
+      "repeat_attack": 0.15,
+      "copycat": 0.15
+    },
+    "source_list_cap": 8,
+    "bot_report_min_threshold": 100,
+    "attack_labels": ["NEGATIVO", "AGRESIVO"],
+    "max_comparison_pairs": 50000,
+    "max_comments_for_clustering": 2000,
+    "patterns_file": "config/patterns/attack_words.json",
+    "name_patterns_file": "config/patterns/bot_name_patterns.json"
+  },
+
+  "bot_detector": {
+    "near_dup_threshold": 0.45,
+    "burst_window_min": 90,
+    "cib_window_min": 120,
+    "burst_min_posts": 3,
+    "ghost_max_reactions": 5,
+    "ghost_max_comments": 3,
+    "attack_source_threshold": 0.80,
+    "bot_confirmed_threshold": 60,
+    "suspicious_threshold": 30,
+    "min_text_len_for_similarity": 40,
+    "cib_min_cluster_size": 2,
+    "burst_jaccard_threshold": 0.15,
+    "max_posts_for_cib": 1000,
+    "confidence_scores": {
+      "near_duplicate": 75,
+      "cib_cluster": 65,
+      "ghost_amplifier": 55,
+      "burst_poster": 50,
+      "attack_source": 40
+    }
+  },
+
+  "cib_graph": {
+    "phrase_threshold": 0.40,
+    "max_actors_per_post": 60,
+    "pagerank_max_iter": 150,
+    "betweenness_k": 50,
+    "betweenness_k_threshold": 200,
+    "union_find_cutoff_ratio": 0.50,
+    "phrase_comparison_limit": 10,
+    "phrase_text_max_len": 200,
+    "phrase_early_exit_sim": 0.95,
+    "d3_max_nodes": 500,
+    "d3_max_edges": 2000,
+    "risk_thresholds": { "critical": 70, "high": 40, "medium": 20 },
+    "max_clusters_output": 50,
+    "role_thresholds": {
+      "command_deg_pct": 0.50,
+      "amplifier_bet_pct": 0.30,
+      "hub_deg_pct": 0.30,
+      "peripheral_deg_pct": 0.50
+    },
+    "coordination_weights": {
+      "density": 40,
+      "pagerank_concentration": 30,
+      "cluster_quality": 30
+    }
+  },
+
+  "hcs_engine": {
+    "max_score": 99,
+    "penalty_weights": {
+      "name": 25,
+      "attack_rate": 25,
+      "vocab_diversity": 20,
+      "coordination": 20,
+      "pattern": 9
+    },
+    "label_ranges": [
+      [0,  19, "CONFIRMED BOT",  "#f38ba8", "3d1520"],
+      [20, 39, "HIGH RISK",      "#fab387", "3d2010"],
+      [40, 59, "SUSPICIOUS",     "#f9e2af", "3d3010"],
+      [60, 79, "LIKELY HUMAN",   "#89b4fa", "10203d"],
+      [80, 99, "HUMAN",          "#a6e3a1", "103d20"]
+    ],
+    "name_penalties": {
+      "bot_keyword": 12,
+      "digit_suffix": 8,
+      "generic_first_name": 5,
+      "no_surname": 5
+    },
+    "pattern_penalties": {
+      "all_caps": 8,
+      "excessive_punctuation": 5
+    },
+    "min_words_for_vocab": 5,
+    "default_vocab_diversity": 0.5,
+    "min_word_len": 3
+  },
+
+  "ownership_engine": {
+    "jaccard_cluster_threshold": 0.25,
+    "bot_density_threshold": 0.30,
+    "min_shared_bots": 2,
+    "risk_thresholds": {
+      "critical_jaccard": 0.60,
+      "high_jaccard": 0.35,
+      "medium_jaccard": 0.20,
+      "high_bot_count": 5,
+      "medium_bot_count": 3
+    },
+    "confidence_weights": { "jaccard": 40, "shared_bots": 30, "narrative": 20 },
+    "risk_bonus": { "CRITICAL": 10, "HIGH": 7, "MEDIUM": 3, "LOW": 0 },
+    "binding_weights": { "exclusivity": 60, "attack_rate": 39 },
+    "max_bindings_output": 100,
+    "attack_labels": ["NEGATIVO", "AGRESIVO"]
+  },
+
+  "temporal_engine": {
+    "wave_window_s": 60,
+    "wave_min_events": 3,
+    "wave_min_authors": 2,
+    "sync_threshold_s": 3.0,
+    "peak_density_window_s": 10,
+    "merge_gap_ratio": 0.5,
+    "suspicious_actor_min_waves": 2,
+    "max_timeline_buckets": 168,
+    "score_weights": {
+      "wave_intensity_multiplier": 3.0,
+      "wave_count_multiplier": 5.0,
+      "max_wave_score": 60.0,
+      "sync_pair_multiplier": 8.0,
+      "max_sync_score": 40.0
+    }
+  },
+
+  "stylometry_engine": {
+    "cluster_sim_threshold": 0.92,
+    "clone_threshold": 0.95,
+    "bot_vocab_threshold": 0.35,
+    "bot_template_min_comments": 3,
+    "bot_excl_density_threshold": 0.5,
+    "bot_word_count_threshold": 4.0,
+    "min_cluster_size": 2,
+    "template_campaign_bot_ratio": 0.70,
+    "clone_farm_min_actors": 3,
+    "copy_paste_min_actors": 3,
+    "copy_paste_sig_len": 30
+  },
+
+  "sentiment_delta": {
+    "window_hours": [2.0, 6.0, 24.0],
+    "seeded_delta_threshold": 0.20,
+    "min_window_comments": 3,
+    "min_total_comments": 5,
+    "top_seed_actors_per_post": 8,
+    "top_seed_accounts_output": 20,
+    "score_weights": {
+      "seeded_pct_weight": 60.0,
+      "avg_delta_multiplier": 200.0,
+      "max_delta_score": 40.0
+    },
+    "neg_patterns_file": "config/patterns/neg_sentiment_es.json",
+    "pos_patterns_file": "config/patterns/pos_sentiment_es.json"
+  },
+
+  "first_mover": {
+    "first_n": 5,
+    "seed_threshold": 3,
+    "team_co_min": 2,
+    "top_seed_limit": 20,
+    "score_weights": {
+      "seed_account_multiplier": 8.0,
+      "max_seed_score": 50.0,
+      "team_multiplier": 15.0,
+      "max_team_score": 30.0,
+      "dominant_seed_bonus": 20.0,
+      "dominant_seed_ratio": 0.5
+    }
+  },
+
+  "semantic": {
+    "adaptive_threshold": true,
+    "cluster_sim_threshold": null,
+    "adaptive_sample_vectors": 50,
+    "adaptive_k_std": 1.0,
+    "adaptive_min": 0.15,
+    "adaptive_max": 0.55,
+    "adaptive_fallback": 0.25,
+    "min_cluster_size": 3,
+    "top_terms": 8,
+    "bot_cluster_threshold": 0.50,
+    "soldier_max_clusters": 1,
+    "amplifier_min_clusters": 3,
+    "max_comments": 5000,
+    "min_comment_len": 10,
+    "min_term_len": 3,
+    "score_weights": {
+      "bot_dominated_per_cluster": 20.0,
+      "max_bot_dom_score": 60.0,
+      "amplifier_multiplier": 4.0,
+      "max_amplifier_score": 20.0,
+      "soldier_multiplier": 2.0,
+      "max_soldier_score": 20.0
+    },
+    "stopwords_file": "config/patterns/stopwords_es_en.json"
+  },
+
+  "lifecycle": {
+    "burst_window_minutes": 30,
+    "min_burst_comments": 3,
+    "velocity_threshold_per_hour": 10.0,
+    "sleeper_lag_threshold_hours": 2.0,
+    "sleeper_cell_window_hours": 1.0,
+    "sleeper_cell_min_actors": 3,
+    "top_actors_output": 30,
+    "score_weights": {
+      "activation_lag": 30,
+      "burst": 20,
+      "velocity": 25,
+      "laser_focus": 15,
+      "tight_window": 10
+    }
+  },
+
+  "narrative_injection": {
+    "min_propagation_count": 2,
+    "min_injection_score": 40,
+    "top_terms_per_narrative": 6,
+    "max_narratives": 20,
+    "similarity_threshold": 0.35,
+    "min_cluster_size": 2,
+    "min_comment_len": 10,
+    "max_comments": 5000,
+    "min_term_len": 3,
+    "chain_max_entries": 10,
+    "top_injectors_output": 15,
+    "score_weights": {
+      "cluster_size_multiplier": 5.0,
+      "spread_multiplier": 8.0,
+      "max_size_score": 50.0,
+      "max_spread_score": 50.0
+    },
+    "patterns_file": "config/patterns/attack_words.json",
+    "stopwords_file": "config/patterns/stopwords_es_en.json"
+  },
+
+  "influence_topology": {
+    "top_actors_output":       25,
+    "top_communities_output":  10,
+    "pagerank_weight":         50.0,
+    "betweenness_weight":      30.0,
+    "degree_weight":           20.0,
+    "suspect_score_bonus":     20.0,
+    "score_weights": {
+      "gini_pct":              40.0,
+      "suspect_top_pct":       35.0,
+      "coord_score_pct":       25.0
+    }
+  },
+
+  "hashtag": {
+    "min_hashtag_uses":        3,
+    "min_unique_actors":       2,
+    "min_posts_hit":           1,
+    "rapid_growth_ratio":      3.0,
+    "amplified_ratio":         1.8,
+    "seeder_window_events":    3,
+    "top_seeders_output":      20,
+    "top_hashtags_output":     30,
+    "score_weights": {
+      "weaponized_pct":        60.0,
+      "avg_rate_multiplier":   15.0,
+      "max_rate_score":        40.0
+    }
+  },
+
+  "identity_persistence": {
+    "registry_path":           "sessions/actor_registry.db",
+    "confirmed_threshold":      0.92,
+    "probable_threshold":       0.85,
+    "possible_threshold":       0.75,
+    "min_comments_fp":          5,
+    "top_morphs_output":       20,
+    "min_bot_score":           40
+  },
+
+  "narrative_mutation": {
+    "window_minutes":           30,
+    "window_overlap_pct":       0.50,
+    "mutation_threshold":       0.65,
+    "vocab_size":              50,
+    "spread_window_minutes":   20,
+    "min_comments_per_window":  3,
+    "min_windows":              3,
+    "top_terms":               10,
+    "top_mutations_output":    10,
+    "score_weights": {
+      "pivot_weight":          25.0,
+      "injection_weight":      20.0,
+      "expansion_weight":      15.0,
+      "intensity_multiplier":   0.3
+    }
+  },
+
+  "dark_amplification": {
+    "dark_amp_factor":              5.0,
+    "suspicious_factor":            3.0,
+    "viral_comment_min_pct":        0.15,
+    "viral_share_min_pct":          0.05,
+    "reaction_purity_threshold":    0.85,
+    "burst_window_pct":             0.20,
+    "min_engagement":              50,
+    "min_age_hours":                0.5,
+    "top_events_output":           20,
+    "score_weights": {
+      "dark_pct":                  60.0,
+      "avg_factor_multiplier":      4.0,
+      "max_factor_score":          40.0
+    }
+  },
+
+  "bot_farm_shift": {
+    "window_minutes":              60,
+    "min_actors_per_window":        3,
+    "shift_jaccard_high":           0.15,
+    "shift_jaccard_medium":         0.30,
+    "bot_density_min":              0.40,
+    "min_windows_required":         2,
+    "top_shifts_output":           10,
+    "score_weights": {
+      "shift_count":               15.0,
+      "bot_density":               25.0,
+      "avg_turnover":              60.0
+    }
+  },
+
+  "reply_chain": {
+    "reply_window_seconds":       90,
+    "min_bot_replies":             2,
+    "organic_min_likes":           3,
+    "hijack_score_threshold":     40,
+    "saturation_ratio":            0.60,
+    "top_posts_output":           15,
+    "score_weights": {
+      "hijacked_pct":             50.0,
+      "avg_intensity":            50.0
+    }
+  },
+
+  "cross_campaign": {
+    "registry_path":              "sessions/actor_registry.db",
+    "min_campaigns":               2,
+    "professional_threshold":      5,
+    "persistent_threshold":        3,
+    "top_actors_output":          30,
+    "min_bot_score_to_register":  20,
+    "score_weights": {
+      "professional_pct":         40.0,
+      "persistent_pct":           30.0,
+      "avg_score_multiplier":      0.3
+    }
+  },
+
+  "engagement_anomaly": {
+    "min_reactions":          5,
+    "bot_boost_ratio":       10.0,
+    "suspicious_ratio":       5.0,
+    "amplified_share_pct":    0.15,
+    "ghost_comment_max":      2,
+    "ghost_share_max":        2,
+    "top_anomalies_output":  20,
+    "score_weights": {
+      "anomaly_pct":          60.0,
+      "avg_ratio_multiplier":  0.8,
+      "max_ratio_score":      40.0
+    }
+  },
+
+  "emotional_contagion": {
+    "pre_window_minutes":     60,
+    "during_window_minutes":  30,
+    "post_window_minutes":   120,
+    "min_comments_per_window": 3,
+    "contagion_threshold":    0.15,
+    "top_posts_output":       10,
+    "score_weights": {
+      "shift_magnitude":      70.0,
+      "coverage_pct":         30.0
+    }
+  },
+
+  "troll_hunter": {
+    "name_origins_file":         "config/patterns/name_origins.json",
+    "top_actors_output":         50,
+    "min_comments":               1,
+    "multi_page_min_accounts":    2,
+    "multi_page_style_sim":       0.45,
+    "min_span_hours":             0.08,
+    "bot_cph_threshold":         15.0,
+    "suspicious_cph_threshold":   7.0,
+    "cross_post_high":            5,
+    "cross_post_medium":          3,
+    "aggression_ratio_high":      0.80,
+    "aggression_ratio_medium":    0.50,
+    "signal_weights": {
+      "S1_name_origin":           30,
+      "S2_page_account":          22,
+      "S3_multi_page":            25,
+      "S4_aggression":            22,
+      "S5_cross_post":            18,
+      "S6_velocity":              18,
+      "S7_coordination":          20,
+      "S8_profile":               15
+    },
+    "score_weights": {
+      "bot_pct":                  60.0,
+      "risk_multiplier":           0.5,
+      "max_risk_score":           40.0
+    }
+  },
+
+  "velocity": {
+    "bot_cph_threshold":        15.0,
+    "suspicious_cph_threshold":  7.0,
+    "min_comments":              2,
+    "min_span_hours":            0.25,
+    "top_actors_output":         30,
+    "score_weights": {
+      "bot_pct":                 60.0,
+      "max_cph_multiplier":       1.5,
+      "max_cph_score":           40.0
+    }
+  },
+
+  "narrative_seeding": {
+    "min_text_len":        15,
+    "sim_threshold":        0.50,
+    "min_posts":            2,
+    "key_len":              60,
+    "top_seeds_output":     20,
+    "top_actors_output":    15,
+    "max_comments":       3000,
+    "score_weights": {
+      "seed_multiplier":    8.0,
+      "max_seed_score":    50.0,
+      "cross_actor_mult":  10.0,
+      "max_cross_score":   50.0
+    }
+  },
+
+  "time_correlation": {
+    "bucket_minutes":            30,
+    "high_jaccard_threshold":     0.35,
+    "medium_jaccard_threshold":   0.15,
+    "min_shared_actors":          2,
+    "max_pairs_output":          20,
+    "max_posts_to_analyze":     100,
+    "score_weights": {
+      "high_pct_weight":         70.0,
+      "avg_jaccard_multiplier":  50.0,
+      "max_jaccard_score":       30.0
+    }
+  },
+
+  "bot_attribution": {
+    "min_co_posts":                2,
+    "min_bots_per_operator":       2,
+    "top_operators_output":       15,
+    "top_edges_output":           40,
+    "cluster_jaccard_threshold":   0.30,
+    "confidence_weights": {
+      "co_posts":                 50,
+      "exclusivity":              50
+    },
+    "score_weights": {
+      "operator_multiplier":       8.0,
+      "max_operator_score":       50.0,
+      "bot_per_op_multiplier":     5.0,
+      "max_bot_score":            50.0
+    }
+  },
+
+  "confidence_chain": {
+    "min_score_to_include":    20,
+    "max_actors_output":       40,
+    "max_signals_per_actor":   12,
+    "human_avg_cph":            0.3,
+    "clone_similarity_pct":    90
+  },
+
+  "multi_source": {
+    "min_pages_for_cross_flag":   2,
+    "confirmed_cross_min_pages":  3,
+    "high_overlap_jaccard":       0.30,
+    "coord_jaccard_threshold":    0.15,
+    "min_bot_score_for_cross":   40,
+    "top_pairs_output":          10,
+    "top_narrative_terms":       10,
+    "max_cross_actors_output":   50,
+    "score_weights": {
+      "cross_actor_pct":   50.0,
+      "avg_pair_overlap":  30.0,
+      "confirmed_cross_pct": 20.0
+    }
+  },
+
+  "glossary": {
+    "abbreviations": {},
+    "terms": {}
+  },
+
+  "cib_score": {
+    "weights": {
+      "troll_hunter":    0.25,
+      "cib_graph":       0.18,
+      "temporal":        0.14,
+      "narrative_mut":   0.10,
+      "dark_amp":        0.08,
+      "engagement":      0.08,
+      "contagion":       0.06,
+      "reply_chain":     0.05,
+      "bot_farm_shift":  0.03,
+      "cross_campaign":  0.02,
+      "identity":        0.01
+    },
+    "thresholds": {
+      "confirmed":       80.0,
+      "high_confidence": 60.0,
+      "probable":        40.0,
+      "possible":        20.0
+    },
+    "top_signals_count": 5
+  },
+
+  "monitor": {
+    "interval_seconds":           300,
+    "max_posts_per_cycle":         50,
+    "bot_score_threshold":         60,
+    "new_bot_alert_min":            3,
+    "cib_spike_threshold":         15.0,
+    "cib_alert_minimum_score":     40.0,
+    "engagement_surge_pct":        50.0,
+    "narrative_pivot_terms_min":    4,
+    "telegram_enabled":         false,
+    "telegram_token":               "",
+    "telegram_chat_id":             "",
+    "state_file":           "monitor_state.json"
+  },
+
+  "session_delta": {
+    "new_bot_score_threshold":     60,
+    "score_escalation_min_jump":   15,
+    "min_actors_for_analysis":      3,
+    "top_narrative_terms":         15,
+    "drift_stable_threshold":      0.70,
+    "drift_moderate_threshold":    0.40,
+    "max_actor_deltas_output":     30,
+    "max_new_posts_output":        10
+  },
+
+  "legal_export": {
+    "max_posts": 50,
+    "max_bots": 30,
+    "max_waves": 20,
+    "max_seeds": 20,
+    "max_clusters": 10,
+    "max_seeded_posts": 20,
+    "analyst_name": "NULLSEC RED TEAM",
+    "tool_version": "FBSCRAP v2.0",
+    "output_json": true,
+    "output_html": true,
+    "output_docx": true,
+    "output_zip": true
+  },
+
+  "reporting": {
+    "docx": {
+      "max_suspects": 30,
+      "max_clusters": 15,
+      "max_operators": 20,
+      "max_waves": 20,
+      "max_sync_pairs": 8,
+      "max_clone_pairs": 8,
+      "max_copy_paste": 5,
+      "max_bot_writers": 20,
+      "max_seed_accounts": 20,
+      "max_seeding_teams": 10,
+      "max_narrative_clusters": 15,
+      "max_soldiers": 15,
+      "max_amplifiers": 10,
+      "max_seeded_posts": 10,
+      "max_suspicious_actors": 15,
+      "max_lifecycle_actors":  25,
+      "max_sleeper_cells":     5,
+      "max_injections":        15,
+      "max_chain_entries":     8,
+      "max_topology_actors":   20,
+      "max_topology_comms":    8,
+      "max_hashtags":          20,
+      "max_hashtag_curve_pts": 24,
+      "max_troll_profiles":    30,
+      "max_engagement_posts":  15,
+      "max_contagion_posts":    8,
+      "max_reply_posts":       10,
+      "max_cross_actors":      20,
+      "max_dark_amp_posts":    15,
+      "max_shift_events":       8,
+      "max_identity_morphs":   12,
+      "max_mutations":          8,
+      "max_velocity_actors":   25,
+      "max_seeds":             15,
+      "max_cross_pairs":       15,
+      "max_operators":         12,
+      "max_chain_actors":      15,
+      "include_glossary":      true
+    },
+    "html": {
+      "max_suspects": 200,
+      "max_operators": 20,
+      "max_waves": 30,
+      "max_sync_pairs": 10,
+      "max_clusters": 20,
+      "max_copy_paste": 10,
+      "max_bot_actors": 30,
+      "max_timeline_buckets": 72,
+      "max_lifecycle_actors": 30,
+      "max_injections":       15,
+      "max_topology_actors":  25,
+      "max_hashtags":         20,
+      "max_troll_profiles":   30,
+      "max_velocity_actors":  25,
+      "max_seeds":            15,
+      "max_cross_pairs":      15,
+      "max_attr_operators":   12
+    }
+  },
+
+  "output": {
+    "default_output_dir": "sessions/",
+    "default_format": "all",
+    "default_top_n": 30,
+    "default_days": 7,
+    "default_max_posts": 200,
+    "default_max_comments": 300,
+    "default_min_engagement": 0,
+    "default_top_per_source": 30,
+    "default_comments_on_top": 0,
+    "default_concurrent": 1
+  }
+}

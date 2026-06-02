@@ -1,0 +1,67 @@
+{
+  "expand_selectors": [
+    "span:has-text('Ver más comentarios')",
+    "span:has-text('Ver más respuestas')",
+    "span:has-text('Ver X comentarios más')",
+    "div[role='button']:has-text('Ver más comentarios')",
+    "div[role='button']:has-text('Ver más respuestas')",
+    "span:has-text('comentarios más')",
+    "span:has-text('respuestas más')",
+    "span:has-text('View more comments')",
+    "span:has-text('View more replies')",
+    "div[role='button']:has-text('View more comments')",
+    "div[role='button']:has-text('View more replies')",
+    "[aria-label*='Ver más comentarios']",
+    "[aria-label*='View more comments']"
+  ],
+  "reel_comment_open_selectors": [
+    "[aria-label='Comentario'][role='button']",
+    "[aria-label='Comment'][role='button']",
+    "div[aria-label*='Comentario'][role='button']",
+    "div[aria-label*='Comment'][role='button']",
+    "[aria-label*='comentario' i][role='button']",
+    "[aria-label*='comment' i][role='button']",
+    "[aria-label*='Dejar un comentario']",
+    "[aria-label*='Leave a comment']",
+    "[aria-label*='Escribe un comentario']",
+    "[aria-label*='Write a comment']",
+    "div[data-pagelet*='video'] [aria-label*='comentario' i]",
+    "div[data-pagelet*='Reel'] [aria-label*='comentario' i]",
+    "a[aria-label*='comentario' i]",
+    "a[aria-label*='comment' i]"
+  ],
+  "reel_expand_selectors": [
+    "div[role='button']:has-text('Ver más comentarios')",
+    "div[role='button']:has-text('View more comments')",
+    "div[role='button']:has-text('Ver más respuestas')",
+    "div[role='button']:has-text('View more replies')",
+    "span:has-text('Ver más comentarios')",
+    "span:has-text('View more comments')"
+  ],
+  "reel_panel_selectors": [
+    "div[aria-label*='Sección de comentarios']",
+    "div[aria-label*='Comments section']",
+    "div[aria-label*='comment' i][role='complementary']",
+    "div[role='complementary']",
+    "div[aria-label*='comentarios' i][role='dialog']",
+    "div[role='dialog'][aria-label*='comentario' i]",
+    "div[data-pagelet*='video'] div[role='complementary']"
+  ],
+  "text_selectors": [
+    "[data-ad-comet-preview='message']",
+    "span[dir='auto']",
+    "div[dir='auto']"
+  ],
+  "comment_selectors": [
+    "div[aria-label*='Comentario de']",
+    "div[role='article'] > div > div > ul > li",
+    "ul > li[style]",
+    "div[role='article'] ul li"
+  ],
+  "panel_comment_selectors": [
+    "div[role='article']",
+    "ul > li",
+    "div[aria-label*='Comentario de']"
+  ],
+  "noise_pattern": "^(Me gusta|Like|Responder|Reply|Ver|View|Seguir|Follow|Compartir|Share)\\b"
+}

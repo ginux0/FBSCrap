@@ -1,0 +1,18 @@
+{
+  "bot_keywords": [
+    "bot","robot","auto","news","noticias","info","official","oficial",
+    "updates","alert","alerta","notifica","report","reporte","citizen",
+    "patriota","resistencia","verdad","truth","real","fake","anon",
+    "anonymous","hack","cyber","digital","online","web","media","press",
+    "prensa","periodismo","journalism","account","cuenta","user","usuario"
+  ],
+  "generic_first_names_es": [
+    "juan","maria","jose","luis","carlos","ana","pedro","rosa","miguel",
+    "laura","jorge","carmen","manuel","isabel","antonio","teresa","francisco",
+    "elena","rafael","pilar","pablo","marta","sergio","alba","david","sofia",
+    "alejandro","andrea","daniel","patricia","raul","monica","javier","claudia",
+    "roberto","beatriz","mario","silvia","alberto","cristina","fernando","eva"
+  ],
+  "digit_suffix_pattern": "[a-zA-Z]{3,}\\d{3,}$",
+  "no_surname_pattern": "^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{2,}$"
+}

@@ -1,0 +1,16 @@
+[
+  "\\b(apoya|apoyo|apoyan|apoyas|apoyamos|apoyar[ía]|apoyamos)\\b",
+  "\\b(bueno|buen[ao]|buenos|buenas|excelente|excelentes|genial|geniales)\\b",
+  "\\b(gracias|agradec[eo]|agradecido|agradecida|reconoc[eo]|felicito|felicita)\\b",
+  "\\b(bien|correcto|acertado|adecuado|apropiado|oportuno|pertinente)\\b",
+  "\\b(trabaja|trabajan|trabajador|trabajadora|esfuerzo|dedicaci[oó]n|compromiso)\\b",
+  "\\b(progreso|avance|mejora|mejoras|logro|logros|[eé]xito|[eé]xitos)\\b",
+  "\\b(honesto|honesta|honestos|honestas|honestidad|transparente|transparencia)\\b",
+  "\\b(adelante|sigue|contin[uú]a|confio|conf[íi]o|confiamos|confianza)\\b",
+  "\\b(esperanza|optimismo|positivo|positiva|positivos|positivas|f[eé])\\b",
+  "\\b(s[íi]\\s+se\\s+puede|luchando|lucha|esforzando|comprometido|comprometida)\\b",
+  "\\b(respeto|respeta|respetan|respetado|responsable|responsabilidad)\\b",
+  "\\b(good|great|excellent|amazing|fantastic|wonderful|outstanding)\\b",
+  "\\b(support|supported|supporting|thank|thanks|grateful|congratulate)\\b",
+  "\\b(honest|integrity|transparent|responsible|dedicated|committed)\\b"
+]
