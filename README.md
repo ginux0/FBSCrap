@@ -30,20 +30,59 @@ cp config/default_config.json config.json
 
 ## 💻 Usage
 
-### Scan for Coordinated Behavior
+### First Time: Save Facebook Session
 ```bash
-python3 fbscrap.py scan --page "target_page_name" --comments-on-top 100
+python3 fbscrap.py login
 ```
+Opens browser for manual login (saves persistent session for automation).
 
-### Continuous Monitoring (24/7)
+### Scrape Pages for CIB Detection
 ```bash
-python3 fbscrap.py monitor --page "page_name" --monitor-interval 300
+python3 fbscrap.py page --targets targets/example_pages.json --days 7 --sentiment
 ```
+Analyzes posts and comments from target pages for coordinated inauthentic behavior.
 
-### Generate Judicial Report
+### Search Facebook + Sentiment Analysis
 ```bash
-python3 fbscrap.py report --session-dir ./sessions/scan_date --format docx
+python3 fbscrap.py search --query "target name" --days 7 --sentiment
 ```
+Search Facebook posts matching keyword(s) and analyze sentiment patterns.
+
+### Deep Scrape Specific Posts (Forensic Collection)
+```bash
+python3 fbscrap.py comments --url "https://www.facebook.com/.../posts/..." --max-comments 500
+```
+Extract all comments on specific posts with full forensic metadata.
+
+### Multi-Source Campaign Analysis
+```bash
+python3 fbscrap.py full --query "target name" --targets targets/example_pages.json --days 7 --top 30
+```
+Run comprehensive analysis: page scraping + search + sentiment + CIB scoring + HTML report.
+
+### Continuous 24/7 Monitoring with Alerts
+```bash
+python3 fbscrap.py monitor --query "target name" --monitor-interval 300
+```
+Real-time monitoring with Telegram alerts on CIB score spikes and new bot detection.
+
+### Compare Sessions for Campaign Evolution
+```bash
+python3 fbscrap.py delta --delta-before sessions/target/20260101/ --delta-after sessions/target/20260108/
+```
+Detect how attack narratives mutate, new bots appear, and campaigns escalate over time.
+
+### Generate Report from Existing Data
+```bash
+python3 fbscrap.py report --data sessions/target_name/20260101_120000/posts_latest.json --top 30
+```
+Re-generate reports and forensic analysis without needing to re-scrape.
+
+### List All Sessions
+```bash
+python3 fbscrap.py sessions
+```
+Show all recorded scan sessions and their metadata.
 
 ---
 
