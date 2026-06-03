@@ -540,24 +540,85 @@
     }
   },
 
+  "entity_matcher": {
+    "enabled": true,
+    "min_name_length": 4,
+    "enable_initials": true,
+    "enable_titles": true,
+    "enable_partial": true,
+    "adaptive_threshold": 10,
+    "match_confidence_threshold": 0.7,
+    "political_titles": [
+      "alcalde", "presidente municipal", "munícipe", "edil",
+      "presidente", "gobernador", "diputado", "senador",
+      "regidor", "síndico", "funcionario", "servidor público"
+    ]
+  },
+
   "glossary": {
     "abbreviations": {},
     "terms": {}
   },
 
+  "psi_core": {
+    "enabled": true,
+    "stream_window_hours": 168,
+    "min_actions_for_analysis": 3,
+    "min_events_for_analysis": 2,
+    "weight_temporal": 0.4,
+    "weight_action": 0.4,
+    "weight_circadian": 0.2,
+    "psi_threshold_high_bot": 50,
+    "psi_threshold_low_human": -50,
+    "psi_abstention_zone_low": -20,
+    "psi_abstention_zone_high": 20,
+    "hawkes_params": {
+      "base_rate": 0.1,
+      "self_exciting_coef": 0.5,
+      "decay_rate": 0.3,
+      "circadian_weight": 0.2,
+      "sleep_hours": [22, 8]
+    },
+    "markov_params": {
+      "max_order": 2,
+      "laplace_smoothing": 0.1,
+      "min_transition_freq": 1
+    }
+  },
+
+  "psi_coordination": {
+    "enabled": true,
+    "coengagement_time_decay": 0.95,
+    "time_decay_window_hours": 24,
+    "community_resolution": 1.0,
+    "min_cluster_size": 3,
+    "sync_threshold_s": 3.0,
+    "similarity_threshold": 0.40,
+    "ghost_recurrence_min_clusters": 3
+  },
+
+  "psi_stylometry": {
+    "enabled": true,
+    "min_texts_for_fingerprint": 3,
+    "linkage_threshold": 0.65,
+    "temporal_anticorr_threshold": 0.7,
+    "ngram_size": 3
+  },
+
   "cib_score": {
     "weights": {
-      "troll_hunter":    0.25,
-      "cib_graph":       0.18,
-      "temporal":        0.14,
-      "narrative_mut":   0.10,
-      "dark_amp":        0.08,
-      "engagement":      0.08,
-      "contagion":       0.06,
-      "reply_chain":     0.05,
+      "troll_hunter":    0.22,
+      "cib_graph":       0.16,
+      "temporal":        0.13,
+      "narrative_mut":   0.09,
+      "dark_amp":        0.07,
+      "engagement":      0.07,
+      "contagion":       0.05,
+      "reply_chain":     0.04,
       "bot_farm_shift":  0.03,
       "cross_campaign":  0.02,
-      "identity":        0.01
+      "identity":        0.01,
+      "psi_core":        0.10
     },
     "thresholds": {
       "confirmed":       80.0,

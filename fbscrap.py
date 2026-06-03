@@ -183,6 +183,8 @@ EXAMPLES:
                           help="Minimum engagement (reactions+comments+shares) to include")
     g_filter.add_argument("--keywords", "-k", metavar="WORDS",
                           help="Comma-separated keywords to filter posts (page mode)")
+    g_filter.add_argument("--loose-match", action="store_true",
+                          help="ELITE: Enable semantic expansion for person names (initials, titles, variations)")
     g_filter.add_argument("--top", type=int, default=50, metavar="N",
                           help="Top N posts for report (default: 50)")
 
@@ -369,12 +371,29 @@ def _save_session_meta(
     )
 
 
-def _query_to_keywords(query: str) -> list[str]:
+def _query_to_keywords(query: str, use_elite: bool = False, cfg: dict | None = None) -> list[str]:
     """
     Expand a search query into OR-keywords for page-scraper filtering.
     'John Smith Doe' → full phrase + bigrams + words >4 chars.
     Any match = include post.
+
+    If use_elite=True, uses ELITE semantic expansion with initials, titles, etc.
     """
+    if use_elite:
+        try:
+            from engines.entity_matcher import expand_query_elite
+            expanded = expand_query_elite(query, cfg=cfg, strict=False)
+            print(f"  [ELITE] Expanded '{query}' → {len(expanded)} variations")
+            if len(expanded) <= 20:
+                print(f"         {', '.join(expanded[:20])}")
+            else:
+                print(f"         {', '.join(expanded[:15])} +{len(expanded)-15} more")
+            return expanded
+        except Exception as e:
+            print(f"  [ELITE] Warning: expansion failed ({e}) → fallback to basic")
+            # Fallback to basic expansion
+
+    # Basic expansion (original logic)
     q     = query.strip().lower()
     terms = [q]
     words = [w for w in q.split() if len(w) > 3]
@@ -498,8 +517,9 @@ def _print_config(args: argparse.Namespace, cfg: dict) -> None:
     kw_preview = ""
     if queries and args.mode in ("page", "full"):
         all_kws: list[str] = []
+        use_elite = getattr(args, "loose_match", False)
         for q in queries:
-            all_kws.extend(_query_to_keywords(q))
+            all_kws.extend(_query_to_keywords(q, use_elite=use_elite, cfg=cfg))
         all_kws = list(dict.fromkeys(all_kws))
         kw_preview = ", ".join(f'"{k}"' for k in all_kws[:4])
         if len(all_kws) > 4:
@@ -602,8 +622,9 @@ async def run(args: argparse.Namespace, cfg: dict) -> int:
             # OR-union keywords from all queries so a post matching ANY query is kept
             queries = _resolve_queries(args)
             if queries:
+                use_elite = getattr(args, "loose_match", False)
                 for q in queries:
-                    keywords = list(dict.fromkeys(keywords + _query_to_keywords(q)))
+                    keywords = list(dict.fromkeys(keywords + _query_to_keywords(q, use_elite=use_elite, cfg=cfg)))
                 print(f"  [FILTER] Page keywords ({len(queries)} queries): "
                       f"{keywords[:6]}{'...' if len(keywords)>6 else ''}")
             ps = PageScraper(

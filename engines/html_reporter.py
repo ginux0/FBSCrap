@@ -62,6 +62,9 @@ def generate_html_dashboard(
     cib_score_report=None,
     chain_report=None,
     multi_source_report=None,
+    psi_core_report=None,
+    psi_coord_report=None,
+    psi_sty_report=None,
     cfg:                   dict | None = None,
 ) -> None:
     now      = datetime.now()
@@ -101,6 +104,9 @@ def generate_html_dashboard(
     cib_score_data       = _build_cib_score_data(cib_score_report)
     chain_data           = _build_chain_data(chain_report)
     multi_source_data    = _build_multi_source_data(multi_source_report)
+    psi_core_data        = _build_psi_core_data(psi_core_report)
+    psi_coord_data       = _build_psi_coord_data(psi_coord_report)
+    psi_sty_data         = _build_psi_sty_data(psi_sty_report)
     glossary_data        = _build_glossary_data(cfg)
     metrics              = _build_metrics(
         posts, comment_report, cib_result, hcs_report, ownership_report,
@@ -155,6 +161,9 @@ def generate_html_dashboard(
         "cib_score":       cib_score_data,
         "chains":          chain_data,
         "multi_source":    multi_source_data,
+        "psi_core":        psi_core_data,
+        "psi_coord":       psi_coord_data,
+        "psi_sty":         psi_sty_data,
         "glossary":        glossary_data,
     }, ensure_ascii=False)
 
@@ -1272,6 +1281,74 @@ def _build_glossary_data(cfg: dict | None) -> dict:
     return {
         "abbreviations": [{"key": k, "def": v} for k, v in abbr.items()],
         "terms":         [{"term": k, "def": v} for k, v in terms.items()],
+    }
+
+
+def _build_psi_core_data(r) -> dict:
+    """Build PSI_CORE (Likelihood Ratio) data for HTML."""
+    if not r:
+        return {"has_data": False}
+    return {
+        "has_data": True,
+        "overall_score": getattr(r, "overall_score", 0),
+        "confidence_label": getattr(r, "confidence_label", "UNKNOWN"),
+        "high_risk_actors": list(getattr(r, "high_risk_actors", [])),
+        "ambiguous_actors": list(getattr(r, "ambiguous_actors", [])),
+        "human_actors": list(getattr(r, "human_actors", [])),
+        "summary": getattr(r, "summary", ""),
+    }
+
+
+def _build_psi_coord_data(r) -> dict:
+    """Build PSI_COORDINATION (Network Detection) data for HTML."""
+    if not r:
+        return {"has_data": False}
+    clusters_data = []
+    for c in getattr(r, "clusters", []):
+        clusters_data.append({
+            "id": getattr(c, "cluster_id", 0),
+            "size": getattr(c, "size", 0),
+            "actors": list(getattr(c, "actors", []))[:10],  # Limit for HTML
+            "coordination_score": getattr(c, "coordination_score", 0),
+            "density": getattr(c, "density", 0),
+            "temporal_sync": getattr(c, "temporal_sync_level", 0),
+            "content_similarity": getattr(c, "content_similarity_avg", 0),
+            "command_node": getattr(c, "command_node", None),
+        })
+    return {
+        "has_data": True,
+        "total_clusters": getattr(r, "total_clusters", 0),
+        "overall_coordination_score": getattr(r, "overall_coordination_score", 0),
+        "has_organized_network": getattr(r, "has_organized_network", False),
+        "botnet_nodes": list(getattr(r, "botnet_nodes", [])),
+        "ghost_candidates": list(getattr(r, "ghost_candidates", [])),
+        "clusters": clusters_data,
+        "summary": getattr(r, "summary", ""),
+    }
+
+
+def _build_psi_sty_data(r) -> dict:
+    """Build PSI_STYLOMETRY (Sockpuppet Detection) data for HTML."""
+    if not r:
+        return {"has_data": False}
+    linkages_data = []
+    for l in getattr(r, "linkages", [])[:20]:  # Top 20 linkages
+        linkages_data.append({
+            "account_a": getattr(l, "account_a", ""),
+            "account_b": getattr(l, "account_b", ""),
+            "stylometric_distance": getattr(l, "stylometric_distance", 0),
+            "temporal_anticorr": getattr(l, "temporal_anticorr", 0),
+            "shared_ngrams_pct": getattr(l, "shared_ngrams_pct", 0),
+            "confidence": getattr(l, "overall_confidence", 0),
+            "likely_same": getattr(l, "likely_same_operator", False),
+        })
+    return {
+        "has_data": True,
+        "high_confidence_pairs": getattr(r, "high_confidence_pairs", 0),
+        "total_linkages": len(getattr(r, "linkages", [])),
+        "sockpuppet_groups": list(getattr(r, "sockpuppet_groups", [])),
+        "linkages": linkages_data,
+        "summary": getattr(r, "summary", ""),
     }
 
 

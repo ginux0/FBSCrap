@@ -750,6 +750,66 @@ def generate_docx_report(
               f"confirmed={len(multi_source_report.confirmed_cross_bots)} · "
               f"score={multi_source_report.cross_page_score}/100")
 
+    # ── ARGOS-Ψ: Probabilistic Bot Detection (Phase 0-3) ─────────────────────
+    psi_core_report = None
+    psi_coord_report = None
+    psi_sty_report = None
+
+    print(f"\n  [ARGOS-Ψ] Starting PSI analysis...")
+    print(f"  [ARGOS-Ψ] Input data: {len(all_comment_results)} posts with comments")
+    total_comments = sum(len(p.get('comments', [])) for p in all_comment_results)
+    print(f"  [ARGOS-Ψ] Total comments: {total_comments}")
+
+    try:
+        from engines.psi_core_engine import PSICoreEngine
+        from engines.psi_coordination_engine import PSICoordinationEngine
+        from engines.psi_stylometry_engine import PSIStylometryEngine
+
+        # Phase 0: PSI_CORE (Likelihood Ratio Nucleus)
+        print(f"  [ARGOS-Ψ] Running PSI_CORE...")
+        psi_core_report = PSICoreEngine(cfg=cfg).analyze(all_comment_results, {})
+
+        # Phase 2: PSI_COORDINATION (Network Detection)
+        print(f"  [ARGOS-Ψ] Running PSI_COORDINATION...")
+        actor_psi_scores = (
+            psi_core_report.actor_scores
+            if psi_core_report and hasattr(psi_core_report, 'actor_scores')
+            else {}
+        )
+        print(f"  [ARGOS-Ψ] Actor PSI scores: {len(actor_psi_scores)}")
+        psi_coord_report = PSICoordinationEngine(cfg=cfg).analyze(
+            all_comment_results,
+            actor_psi_scores
+        )
+
+        # Phase 3: PSI_STYLOMETRY (Sockpuppet Detection)
+        print(f"  [ARGOS-Ψ] Running PSI_STYLOMETRY...")
+        psi_sty_report = PSIStylometryEngine(cfg=cfg).analyze(all_comment_results)
+
+        if psi_core_report:
+            print(f"  [PSI CORE] score={getattr(psi_core_report, 'overall_score', 0)}/100 · "
+                  f"high_risk={len(getattr(psi_core_report, 'high_risk_actors', []))} · "
+                  f"ambiguous={len(getattr(psi_core_report, 'ambiguous_actors', []))}")
+
+        if psi_coord_report:
+            print(f"  [PSI COORD] clusters={psi_coord_report.total_clusters} · "
+                  f"coord={psi_coord_report.overall_coordination_score}/100 · "
+                  f"botnet_nodes={len(psi_coord_report.botnet_nodes)} · "
+                  f"ghosts={len(psi_coord_report.ghost_candidates)}")
+
+        if psi_sty_report:
+            print(f"  [PSI STYLO] linkages={len(psi_sty_report.linkages)} · "
+                  f"high_conf={psi_sty_report.high_confidence_pairs} · "
+                  f"sockpuppet_groups={len(psi_sty_report.sockpuppet_groups)}")
+
+    except Exception as e:
+        import traceback
+        print(f"  [ARGOS-Ψ] ERROR: {e}")
+        print(f"  [ARGOS-Ψ] Traceback:")
+        traceback.print_exc()
+        # Graceful degradation if PSI engines fail
+        pass
+
     # ── Unified CIB Confidence Score — computed from ALL engines ─────────────
     from engines.cib_score_engine import CIBScoreEngine
     cib_score_report = CIBScoreEngine(cfg=cfg).compute(
@@ -764,6 +824,9 @@ def generate_docx_report(
         shift_report          = shift_report,
         cross_campaign_report = cross_campaign_report,
         identity_report       = identity_report,
+        psi_report            = psi_core_report,
+        coordination_report   = psi_coord_report,
+        stylometry_report     = psi_sty_report,
     )
     print(f"  [CIB SCORE] {cib_score_report.overall_score}/100 — "
           f"{cib_score_report.confidence_label} — "
@@ -924,6 +987,9 @@ def generate_docx_report(
         cib_score_report=cib_score_report,
         chain_report=chain_report,
         multi_source_report=multi_source_report,
+        psi_core_report=psi_core_report,
+        psi_coord_report=psi_coord_report,
+        psi_sty_report=psi_sty_report,
         cfg=cfg,
     )
 
@@ -3282,6 +3348,183 @@ def generate_docx_report(
     if mutation_report.mutations:
         doc.add_paragraph()
 
+    # ── SECCIÓN 29: ARGOS-Ψ PSI_CORE (Likelihood Ratio Nucleus) ──────────────
+    _div(doc, "0d0d2b")
+    _h1(doc, "SECTION 29 — ARGOS-Ψ PSI CORE · LIKELIHOOD RATIO (Ψ)")
+    p29intro = doc.add_paragraph()
+    _sp(p29intro)
+    _r(p29intro, "Probabilistic bot detection via temporal Hawkes processes + Markov action sequences.\n",
+       color=WHITE, size=9)
+
+    if psi_core_report and getattr(psi_core_report, 'actor_scores', None):
+        _r(p29intro, f"Ψ(S) = log P(S|Bot) - log P(S|Human)  ·  ", color=CYAN, size=8)
+        _r(p29intro, f"Overall Score: ", color=GRAY, size=9)
+        _r(p29intro, f"{getattr(psi_core_report, 'overall_score', 0):.0f}/100",
+           color=YELLOW, size=10, bold=True)
+        doc.add_paragraph()
+
+        # High-risk actors (Ψ > 50)
+        high_risk = getattr(psi_core_report, 'high_risk_actors', [])
+        if high_risk:
+            phr = doc.add_paragraph()
+            _sp(phr)
+            _r(phr, f"HIGH-RISK ACTORS (Ψ > 50) — {len(high_risk)} detected:\n",
+               bold=True, color=RED, size=9)
+            for actor in high_risk[:15]:
+                _r(phr, f"  ▸ {actor}\n", color=WHITE, size=8)
+
+        # Ambiguous actors (Ψ ≈ 0)
+        ambiguous = getattr(psi_core_report, 'ambiguous_actors', [])
+        if ambiguous:
+            pamb = doc.add_paragraph()
+            _sp(pamb)
+            _r(pamb, f"AMBIGUOUS ACTORS (Ψ ≈ 0) — {len(ambiguous)} require manual review:\n",
+               bold=True, color=YELLOW, size=9)
+            for actor in ambiguous[:10]:
+                _r(pamb, f"  ▸ {actor} [Possible sockpuppet or elite operator]\n",
+                   color=WHITE, size=8)
+
+        # Human actors (Ψ < -50)
+        humans = getattr(psi_core_report, 'human_actors', [])
+        if humans:
+            phum = doc.add_paragraph()
+            _sp(phum)
+            _r(phum, f"HUMAN BASELINE (Ψ < -50) — {len(humans)} organic actors:\n",
+               bold=True, color=GREEN, size=9)
+            for actor in humans[:10]:
+                _r(phum, f"  ▸ {actor}\n", color=WHITE, size=8)
+    else:
+        pnodata = doc.add_paragraph()
+        _sp(pnodata)
+        _r(pnodata, "⚠ PSI_CORE analysis unavailable — ", color=YELLOW, size=9, bold=True)
+        reason = getattr(psi_core_report, 'summary', 'No data') if psi_core_report else 'Engine failed to execute'
+        _r(pnodata, reason, color=WHITE, size=9)
+
+    doc.add_paragraph()
+
+    # ── SECCIÓN 30: ARGOS-Ψ PSI_COORDINATION (Network Detection) ─────────────
+    _div(doc, "0d0d2b")
+    _h1(doc, "SECTION 30 — ARGOS-Ψ PSI COORDINATION · NETWORK CLUSTER DETECTION")
+    p30intro = doc.add_paragraph()
+    _sp(p30intro)
+    _r(p30intro, "Detects coordinated networks via co-engagement graph + temporal sync + content similarity.\n",
+       color=WHITE, size=9)
+
+    if psi_coord_report and getattr(psi_coord_report, 'total_clusters', 0) > 0:
+        _r(p30intro, f"Overall Coordination: ", color=GRAY, size=9)
+        _r(p30intro, f"{getattr(psi_coord_report, 'overall_coordination_score', 0):.0f}/100",
+           color=YELLOW, size=10, bold=True)
+        _r(p30intro, f"  ·  Clusters: {getattr(psi_coord_report, 'total_clusters', 0)}",
+           color=CYAN, size=9)
+        doc.add_paragraph()
+
+        # Clusters
+        clusters = getattr(psi_coord_report, 'clusters', [])
+        for i, cluster in enumerate(clusters[:8], 1):
+            pcl = doc.add_paragraph()
+            _sp(pcl)
+            _r(pcl, f"Cluster #{i} — ", bold=True, color=CYAN, size=9)
+            _r(pcl, f"{getattr(cluster, 'size', 0)} actors  ·  Coord: {getattr(cluster, 'coordination_score', 0):.0f}/100\n",
+               color=WHITE, size=9)
+            actors = getattr(cluster, 'actors', [])
+            _r(pcl, f"  Actors: {', '.join(actors[:8])}", color=WHITE, size=8)
+            if len(actors) > 8:
+                _r(pcl, f" +{len(actors)-8} more", color=GRAY, size=8)
+            _r(pcl, f"\n  Temporal Sync: {getattr(cluster, 'temporal_sync_level', 0):.2f}  ·  ",
+               color=GRAY, size=8)
+            _r(pcl, f"Content Sim: {getattr(cluster, 'content_similarity_avg', 0):.2f}",
+               color=GRAY, size=8)
+            cmd = getattr(cluster, 'command_node', None)
+            if cmd:
+                _r(pcl, f"\n  Command Node: {cmd} [Rhythm marker]",
+                   color=RED, size=8, bold=True)
+            pcl.add_run("\n")
+
+        # BOTNET_NODEs
+        botnet_nodes = getattr(psi_coord_report, 'botnet_nodes', [])
+        if botnet_nodes:
+            pbn = doc.add_paragraph()
+            _sp(pbn)
+            _r(pbn, f"BOTNET_NODES — {len(botnet_nodes)} detected:\n",
+               bold=True, color=RED, size=9)
+            for node in botnet_nodes:
+                _r(pbn, f"  ▸ {node} [High centrality + temporal precedence]\n",
+                   color=WHITE, size=8)
+
+        # GHOST candidates
+        ghosts = getattr(psi_coord_report, 'ghost_candidates', [])
+        if ghosts:
+            pgh = doc.add_paragraph()
+            _sp(pgh)
+            _r(pgh, f"GHOST CANDIDATES — {len(ghosts)} elite invisible operators:\n",
+               bold=True, color=PURPLE, size=9)
+            for ghost in ghosts:
+                _r(pgh, f"  ▸ {ghost} [Ψ ≈ 0 but recurs in 3+ clusters]\n",
+                   color=WHITE, size=8)
+    else:
+        pnodata30 = doc.add_paragraph()
+        _sp(pnodata30)
+        _r(pnodata30, "⚠ PSI_COORDINATION analysis unavailable — ", color=YELLOW, size=9, bold=True)
+        reason30 = getattr(psi_coord_report, 'summary', 'No data') if psi_coord_report else 'Engine failed to execute'
+        _r(pnodata30, reason30, color=WHITE, size=9)
+
+    doc.add_paragraph()
+
+    # ── SECCIÓN 31: ARGOS-Ψ PSI_STYLOMETRY (Sockpuppet Detection) ────────────
+    _div(doc, "0d0d2b")
+    _h1(doc, "SECTION 31 — ARGOS-Ψ PSI STYLOMETRY · SOCKPUPPET LINKAGE DETECTION")
+    p31intro = doc.add_paragraph()
+    _sp(p31intro)
+    _r(p31intro, "Detects same operator managing multiple accounts via stylometric fingerprints + temporal anti-correlation.\n",
+       color=WHITE, size=9)
+
+    if psi_sty_report and getattr(psi_sty_report, 'high_confidence_pairs', 0) > 0:
+        _r(p31intro, f"High-Confidence Linkages: ", color=GRAY, size=9)
+        _r(p31intro, f"{getattr(psi_sty_report, 'high_confidence_pairs', 0)}",
+           color=YELLOW, size=10, bold=True)
+        _r(p31intro, f"  ·  Total Pairs Analyzed: {len(getattr(psi_sty_report, 'linkages', []))}",
+           color=CYAN, size=9)
+        doc.add_paragraph()
+
+        # Top linkages
+        linkages = getattr(psi_sty_report, 'linkages', [])
+        for link in linkages[:10]:
+            if not getattr(link, 'likely_same_operator', False):
+                continue
+            plink = doc.add_paragraph()
+            _sp(plink)
+            _r(plink, f"{getattr(link, 'account_a', '')} ↔ {getattr(link, 'account_b', '')}",
+               bold=True, color=YELLOW, size=9)
+            _r(plink, f"  [Confidence: {getattr(link, 'overall_confidence', 0):.2f}]\n",
+               color=GRAY, size=8)
+            _r(plink, f"  Stylometric Distance: {getattr(link, 'stylometric_distance', 0):.2f}  ·  ",
+               color=WHITE, size=8)
+            _r(plink, f"Temporal Anti-Corr: {getattr(link, 'temporal_anticorr', 0):.2f}  ·  ",
+               color=WHITE, size=8)
+            _r(plink, f"Shared N-grams: {getattr(link, 'shared_ngrams_pct', 0):.2f}\n",
+               color=WHITE, size=8)
+            _r(plink, "  → LIKELY SAME OPERATOR", color=RED, size=8, bold=True)
+            plink.add_run("\n")
+
+        # Sockpuppet groups
+        groups = getattr(psi_sty_report, 'sockpuppet_groups', [])
+        if groups:
+            pgrp = doc.add_paragraph()
+            _sp(pgrp)
+            _r(pgrp, f"SOCKPUPPET GROUPS — {len(groups)} detected:\n",
+               bold=True, color=RED, size=9)
+            for i, group in enumerate(groups, 1):
+                _r(pgrp, f"  Group #{i}: {', '.join(group)}\n",
+                   color=WHITE, size=8)
+    else:
+        pnodata31 = doc.add_paragraph()
+        _sp(pnodata31)
+        _r(pnodata31, "⚠ PSI_STYLOMETRY analysis unavailable — ", color=YELLOW, size=9, bold=True)
+        reason31 = getattr(psi_sty_report, 'summary', 'No data') if psi_sty_report else 'Engine failed to execute'
+        _r(pnodata31, reason31, color=WHITE, size=9)
+
+    doc.add_paragraph()
+
     # ── SECCIÓN 32: UNIFIED CIB CONFIDENCE SCORE ─────────────────────────────
     _div(doc, "0d2b0d")
     _h1(doc, "SECTION 32 — UNIFIED CIB CONFIDENCE SCORE")
@@ -3332,7 +3575,7 @@ def generate_docx_report(
                color=dc, size=7)
     doc.add_paragraph()
 
-    # ── SECCIÓN 33: CADENAS DE EVIDENCIA FORENSE (Confidence Chain) ───────────
+    # ── SECCIÓN 35: CADENAS DE EVIDENCIA FORENSE (Confidence Chain) ───────────
     from engines.confidence_chain_engine import ConfidenceChainEngine
     chain_report = ConfidenceChainEngine(cfg=cfg).analyze(
         troll_report          = troll_report,
@@ -3347,7 +3590,7 @@ def generate_docx_report(
     )
     if chain_report.chains:
         _div(doc, "0a2a0a")
-        _h1(doc, "SECTION 33 — CADENAS DE EVIDENCIA FORENSE POR ACTOR")
+        _h1(doc, "SECTION 35 — CADENAS DE EVIDENCIA FORENSE POR ACTOR")
         p33intro = doc.add_paragraph()
         _sp(p33intro)
         _r(p33intro,

@@ -52,19 +52,20 @@ class CIBScoreReport:
 
 class CIBScoreEngine:
 
-    # Default weight distribution across 11 engine dimensions
+    # Default weight distribution across 12 engine dimensions
     _DEFAULT_WEIGHTS = {
-        "troll_hunter":    0.25,
-        "cib_graph":       0.18,
-        "temporal":        0.14,
-        "narrative_mut":   0.10,
-        "dark_amp":        0.08,
-        "engagement":      0.08,
-        "contagion":       0.06,
-        "reply_chain":     0.05,
+        "troll_hunter":    0.22,
+        "cib_graph":       0.16,
+        "temporal":        0.13,
+        "narrative_mut":   0.09,
+        "dark_amp":        0.07,
+        "engagement":      0.07,
+        "contagion":       0.05,
+        "reply_chain":     0.04,
         "bot_farm_shift":  0.03,
         "cross_campaign":  0.02,
         "identity":        0.01,
+        "psi_core":        0.10,
     }
 
     _LABELS = {
@@ -79,6 +80,7 @@ class CIBScoreEngine:
         "bot_farm_shift": "Bot Farm Shift",
         "cross_campaign": "Cross-Campaign",
         "identity":       "Identity Morph",
+        "psi_core":       "PSI Likelihood Ratio (Ψ)",
     }
 
     _CONFIDENCE_THRESHOLDS = [
@@ -120,6 +122,9 @@ class CIBScoreEngine:
         shift_report=None,
         cross_campaign_report=None,
         identity_report=None,
+        psi_report=None,
+        coordination_report=None,
+        stylometry_report=None,
     ) -> CIBScoreReport:
         """
         Compute unified CIB confidence score from all available engine reports.
@@ -138,6 +143,7 @@ class CIBScoreEngine:
             "bot_farm_shift": _safe_score(shift_report,        "shift_score"),
             "cross_campaign": _safe_score(cross_campaign_report, "persistence_score"),
             "identity":       _safe_score(identity_report,    "persistence_score"),
+            "psi_core":       _safe_score(psi_report,          "overall_score"),
         }
 
         # Separate engines that ran (report provided) vs. missing (report None)
@@ -192,6 +198,7 @@ class CIBScoreEngine:
             overall, label, dims, troll_report, temporal_report,
             mutation_report, dark_amp_report, contagion_report,
             cross_campaign_report, identity_report, shift_report,
+            psi_report, coordination_report, stylometry_report,
         )
         narrative = self._build_narrative(
             overall, label, dims, n_active, signals, data_quality,
@@ -235,6 +242,9 @@ class CIBScoreEngine:
         cross_campaign_report=None,
         identity_report=None,
         shift_report=None,
+        psi_report=None,
+        coordination_report=None,
+        stylometry_report=None,
     ) -> list[str]:
         signals: list[str] = []
 
@@ -318,6 +328,61 @@ class CIBScoreEngine:
                 signals.append(
                     f"{cs} cambio(s) de turno de granja — "
                     f"{rot} actores rotados dentro de la misma operación"
+                )
+
+        # PSI Likelihood Ratio (ARGOS-Ψ)
+        if psi_report:
+            psi_score = getattr(psi_report, "overall_score", 0)
+            hr = len(getattr(psi_report, "high_risk_actors", []))
+            amb = len(getattr(psi_report, "ambiguous_actors", []))
+            if hr or amb:
+                if hr:
+                    signals.append(
+                        f"{hr} actor(s) with strong bot indicators (Ψ > 50) — "
+                        f"likely automated behavior detected"
+                    )
+                if amb:
+                    signals.append(
+                        f"{amb} actor(s) in ambiguous zone (Ψ ≈ 0) — "
+                        f"require manual review (possible sockpuppets)"
+                    )
+
+        # PSI Coordination Engine (ARGOS-Ψ Phase 2)
+        if coordination_report:
+            n_clusters = getattr(coordination_report, "total_clusters", 0)
+            n_botnet = len(getattr(coordination_report, "botnet_nodes", []))
+            n_ghost = len(getattr(coordination_report, "ghost_candidates", []))
+            coord_score = getattr(coordination_report, "overall_coordination_score", 0)
+            if coord_score > 50:
+                signals.append(
+                    f"{n_clusters} coordinated cluster(s) detected (score {coord_score:.0f}/100) — "
+                    f"organized network structure identified"
+                )
+            if n_botnet:
+                signals.append(
+                    f"{n_botnet} BOTNET_NODE(s) identified — high centrality + temporal rhythm markers"
+                )
+            if n_ghost:
+                signals.append(
+                    f"{n_ghost} GHOST candidate(s) — elite operators (individually ambiguous, "
+                    f"visible only through network recurrence)"
+                )
+
+        # PSI Stylometry Engine (ARGOS-Ψ Phase 3 — Sockpuppet Detection)
+        if stylometry_report:
+            n_linkages = len(getattr(stylometry_report, "linkages", []))
+            n_high_conf = getattr(stylometry_report, "high_confidence_pairs", 0)
+            n_groups = len(getattr(stylometry_report, "sockpuppet_groups", []))
+            if n_high_conf:
+                signals.append(
+                    f"{n_high_conf} high-confidence account linkage(s) detected — "
+                    f"likely HUMAN_LIKE (same operator managing multiple personas)"
+                )
+            if n_groups:
+                total_accounts = sum(len(g) for g in getattr(stylometry_report, "sockpuppet_groups", []))
+                signals.append(
+                    f"{n_groups} sockpuppet cluster(s) found ({total_accounts} linked accounts) — "
+                    f"coordinated through single operator"
                 )
 
         # Fallback: top contributing dimension
